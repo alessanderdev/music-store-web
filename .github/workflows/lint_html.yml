@@ -1,0 +1,15 @@
+# .github/workflows/lint-html.yml
+name: Lint HTML
+
+on: [push, pull_request]
+
+jobs:
+  html-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Lint HTML
+        uses: ChristophShyper/htmlhint-action@v1.0.2
+        with:
+          files: '**/*.html'
