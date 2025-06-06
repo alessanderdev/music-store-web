@@ -1,0 +1,20 @@
+name: Lint HTML
+
+on: [push, pull_request]
+
+jobs:
+  html-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install HTMLHint
+        run: npm install -g htmlhint
+
+      - name: Run HTMLHint
+        run: htmlhint '**/*.html'
