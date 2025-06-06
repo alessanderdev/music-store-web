@@ -1,0 +1,109 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #fff;
+    color: #000;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #000;
+    color: #fff;
+    padding: 10px 20px;
+    flex-wrap: wrap;
+}
+
+.logo img {
+    height: 40px;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+}
+
+.search-container input {
+    padding: 5px;
+    border: none;
+    border-radius: 4px 0 0 4px;
+}
+
+.search-container button {
+    padding: 6px 10px;
+    border: none;
+    background: red;
+    color: white;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+}
+
+.contact {
+    text-align: right;
+}
+
+.contact a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 10px;
+}
+
+.banner {
+    position: relative;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.banner img {
+    width: 100%;
+    max-height: 500px;
+    object-fit: cover;
+}
+
+.banner-text {
+    position: absolute;
+    top: 20%;
+    left: 10%;
+    color: black;
+    text-align: left;
+}
+
+.banner-text h1 {
+    font-size: 48px;
+    font-weight: bold;
+}
+
+.banner-text h2 {
+    font-size: 32px;
+    color: #c84a3c;
+}
+
+.banner-text button {
+    margin-top: 15px;
+    background-color: #c84a3c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 16px;
+}
