@@ -16,10 +16,10 @@ jobs:
     - name: Descargar código
       uses: actions/checkout@v2
 
-    - name: Validar HTML
-      uses: peter-evans/html-validator-action@v1
+    - name: Validar HTML (y CSS en HTML)
+      uses: Cyb3r-Jak3/html5validator-action@v1
       with:
-        files: "**/*.html"
+        args: --root . --also-check-css
 
     - name: Validar CSS (no vacíos)
       run: |
