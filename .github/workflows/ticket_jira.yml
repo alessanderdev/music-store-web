@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Crear issue en Jira
-        uses: atlassian/gajira-create@v2
+        uses: atlassian/gajira-create@v3
         with:
           project: SCRUM         
           summary: "Despliegue exitoso en producción"
