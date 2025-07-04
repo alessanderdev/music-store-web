@@ -11,7 +11,10 @@ jobs:
     steps:
       - name: Echo the menssage 
         run: echo "Hola Alexander"
+<<<<<<< HEAD
 
       - name: Dime la fecha
         run: date        
+=======
+>>>>>>> 9d6b29359dd596e44567b44a07b44e8ffba9779c
 
