@@ -1,0 +1,42 @@
+name: CI - Validación de Código
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Descargar código
+      uses: actions/checkout@v2
+
+    - name: Validar HTML (y CSS en HTML)
+      uses: Cyb3r-Jak3/html5validator-action@v1
+      with:
+        args: --root . --also-check-css
+
+    - name: Validar CSS (no vacíos)
+      run: |
+        for file in $(find . -name '*.css'); do
+          if [ ! -s "$file" ]; then
+            echo "Error: El archivo $file está vacío"
+            exit 1
+          fi
+        done
+
+    - name: Instalar Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 20
+
+    - name: Validar sintaxis JS
+      run: |
+        for file in $(find . -name '*.js'); do
+          node --check "$file" || exit 1
+        done
