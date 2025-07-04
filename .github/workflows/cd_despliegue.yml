@@ -1,4 +1,4 @@
-name: CD - Despliegue a Vercel
+name: CD - Despliegue de Proyecto
 
 on:
   push:

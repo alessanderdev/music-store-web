@@ -1,4 +1,4 @@
-name: CI - Validación Completa de Proyecto Web (CI)
+name: CI - Validación de Proyecto
 
 on:
   push:
