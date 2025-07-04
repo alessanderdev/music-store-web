@@ -1,0 +1,72 @@
+name: CI - Validación Completa de Proyecto Web
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Descargar el código del repositorio
+      uses: actions/checkout@v2
+
+    - name: Validar HTML (estructura)
+      uses: Cyb3r-Jak3/html5validator-action@main
+      with:
+        args: --root . --also-check-css
+
+    - name: Validar CSS (que no estén vacíos)
+      run: |
+        echo "Validando archivos CSS vacíos..."
+        for file in $(find . -name '*.css'); do
+          if [ ! -s "$file" ]; then
+            echo "❌ Error: El archivo $file está vacío"
+            exit 1
+          else
+            echo "✅ Archivo CSS $file válido"
+          fi
+        done
+
+    - name: Instalar Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 20
+
+    - name: Validar sintaxis de JavaScript
+      run: |
+        echo "Validando sintaxis de JS..."
+        for file in $(find . -name '*.js'); do
+          node --check "$file" || exit 1
+        done
+
+    - name: Verificar tamaño de archivos (limpieza)
+      run: |
+        echo "Verificando tamaño de archivos..."
+        for file in $(find . -type f); do
+          size=$(stat -c%s "$file")
+          if [ "$size" -gt 524288 ]; then  # 500 KB
+            echo "⚠️ Archivo grande detectado: $file ($size bytes)"
+          fi
+        done
+
+    - name: Buscar imágenes grandes (>1MB)
+      run: |
+        echo "Revisando imágenes muy pesadas..."
+        for img in $(find . -type f \( -iname '*.jpg' -o -iname '*.png' -o -iname '*.gif' -o -iname '*.webp' \)); do
+          size=$(stat -c%s "$img")
+          if [ "$size" -gt 1048576 ]; then  # 1 MB
+            echo "⚠️ Imagen demasiado pesada: $img ($size bytes)"
+          fi
+        done
+
+    - name: Fecha y hora de ejecución
+      run: date  
+
