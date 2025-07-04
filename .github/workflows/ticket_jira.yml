@@ -1,0 +1,27 @@
+name: Crear ticket Jira tras despliegue
+
+on:
+  workflow_run:
+    workflows: ["CD - Despliegue de Proyecto"]  
+    types:
+      - completed
+
+jobs:
+  create-jira-issue:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }} 
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Crear issue en Jira
+        uses: atlassian/gajira-create@v2
+        with:
+          project: SCRUM         
+          summary: "Despliegue exitoso en producción"
+          description: |
+            El proyecto fue desplegado correctamente en producción.
+            Fecha y hora: ${{ github.event.workflow_run.updated_at }}
+          issuetype: Task
+        env:
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}       
+          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}   
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}  
