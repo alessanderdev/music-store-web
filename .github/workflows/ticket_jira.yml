@@ -1,8 +1,8 @@
-name: Crear ticket Jira tras despliegue
+name: Crear ticket Jira 
 
 on:
   workflow_run:
-    workflows: ["CD - Despliegue de Proyecto"]  
+    workflows: ["CD - Despliegue de Proyecto"]
     types:
       - completed
 
@@ -12,15 +12,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Crear issue en Jira
-        uses: atlassian/gajira-create@v3
-        with:
-          project: SCRUM
-          summary: "Despliegue exitoso en producción"
-          description: |
-            El proyecto fue desplegado correctamente en producción.
-            Fecha y hora: ${{ github.event.workflow_run.updated_at }}
-          issuetype: Task
-          jira-url: ${{ secrets.JIRA_BASE_URL }}    
-          jira-username: ${{ secrets.JIRA_USER_EMAIL }} 
-          jira-password: ${{ secrets.JIRA_API_TOKEN }}  
+      - name: Crear issue en Jira con API REST
+        env:
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+        run: |
+          curl -X POST \
+            -H "Content-Type: application/json" \
+            -u "$JIRA_USER_EMAIL:$JIRA_API_TOKEN" \
+            --data '{
+              "fields": {
+                "project": { "key": "SCRUM" },
+                "summary": "Despliegue exitoso en producción",
+                "description": "El proyecto fue desplegado correctamente en producción.\nFecha y hora: '${{ github.event.workflow_run.updated_at }}'",
+                "issuetype": { "name": "Task" }
+              }
+            }' \
+            "$JIRA_BASE_URL/rest/api/2/issue/"
