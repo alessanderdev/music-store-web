@@ -8,20 +8,19 @@ on:
 
 jobs:
   create-jira-issue:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }} 
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
 
     steps:
       - name: Crear issue en Jira
         uses: atlassian/gajira-create@v3
         with:
-          project: SCRUM         
+          project: SCRUM
           summary: "Despliegue exitoso en producción"
           description: |
             El proyecto fue desplegado correctamente en producción.
             Fecha y hora: ${{ github.event.workflow_run.updated_at }}
           issuetype: Task
-        env:
-          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}       
-          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}   
-          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}  
+          jira-url: ${{ secrets.JIRA_BASE_URL }}    
+          jira-username: ${{ secrets.JIRA_USER_EMAIL }} 
+          jira-password: ${{ secrets.JIRA_API_TOKEN }}  
