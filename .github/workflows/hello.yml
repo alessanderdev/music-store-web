@@ -10,6 +10,5 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - name: Echo the menssage 
-        run: echo "Hola Alexander
-        "
+        run: echo "Hola Alexander"
 
