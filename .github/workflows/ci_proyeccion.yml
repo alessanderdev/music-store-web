@@ -1,5 +1,4 @@
 name: CI - Validación de Código
-
 on:
   push:
     branches:
@@ -7,17 +6,16 @@ on:
   pull_request:
     branches:
       - main
-
 jobs:
   validate:
     runs-on: ubuntu-latest
-
     steps:
     - name: Descargar código
-      uses: actions/checkout@v2
+      uses: actions/checkout@v2 # O @v4, que es la última estable.
 
     - name: Validar HTML (y CSS en HTML)
-      uses: Cyb3r-Jak3/html5validator-action@v0.4.0
+      # CAMBIA ESTA LÍNEA A UNA VERSIÓN MÁS RECIENTE, POR EJEMPLO, v7.2.0 o master
+      uses: Cyb3r-Jak3/html5validator-action@v7.2.0 # O @master para la última versión de desarrollo
       with:
         args: --root . --also-check-css
 
@@ -29,12 +27,10 @@ jobs:
             exit 1
           fi
         done
-
     - name: Instalar Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v3 # O @v4
       with:
         node-version: 20
-
     - name: Validar sintaxis JS
       run: |
         for file in $(find . -name '*.js'); do
